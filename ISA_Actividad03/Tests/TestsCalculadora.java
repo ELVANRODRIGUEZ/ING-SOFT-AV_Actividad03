@@ -10,11 +10,17 @@ public class TestsCalculadora {
 	
     public void testSuma() {
         
-    	resultado = calculator.sum(5.0, 5.0);
+    	resultado = calculator.suma(5.0, 5.0);
         Assertions.assertEquals(10.0, resultado);
         
     }
 
+    public void testResta() {
+    	
+    	resultado = calculator.resta(5.0, 5.0);
+    	Assertions.assertEquals(0.0, resultado);
+    	
+    }
 
     public void testMultipicacion() {
         

@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import interfaz.IUModuloLunar;
+import interfaz.UICalculadora;
 
-public class ModuloLunar {
+public class Calculadora {
 	
 	// ruta de archivo donde se guardan las rocas reconocidas en la misión
 	private String rutaArchivo = "filelunar.txt";
@@ -23,42 +23,15 @@ public class ModuloLunar {
 	private ModuloVisionAbstracto mV;	
 	private ArrayList<RocaLunar> listaRocas;
 	// enlace con el Modulo Lunar
-	private IUModuloLunar iu;
+	private UICalculadora iu;
 	// enlace con Estacion Medio Ambiental
 	private EstacionMedicionAmbiental estacionMedicion;
 	// enlace con Pánel Solar
 	private PanelSolar panel_izq,panel_drch;
 	
 	// Constructor. Recibe una interface como parámetro
-	public ModuloLunar(IUModuloLunar iu) {
+	public Calculadora(UICalculadora iu) {
 		
-		this.iu=iu;
-				
-		iu.setMsgVentanaCtrl("INFO: Inicializando Modulo Visión....");
-		mV = new ModuloVision();
-		iu.setMsgVentanaCtrl("INFO: Módulo Visión inicializado....");
-		
-		iu.setMsgVentanaCtrl("INFO: Creando estructura de almacenamiento de rocas lunares detectadas....");
-		listaRocas = new ArrayList<RocaLunar>();
-
-		iu.setMsgVentanaCtrl("INFO: Creando mapa de códigos de tipos de roca lunar....");
-		mapaHashRocas = new HashMap<String, String>();
-		mapaHashRocas.put("basalt", "1");
-		mapaHashRocas.put("breccia", "2");
-		mapaHashRocas.put("highland", "3");
-		mapaHashRocas.put("regolith", "4");
-		mapaHashRocas.put("unknown", "5");
-		iu.setMsgVentanaCtrl("INFO: Mapa de códigos de tipos de roca lunar creado....");
-		
-		estacionMedicion = new EstacionMedicionAmbiental();
-		estacionMedicion.desplegarMastil();
-		iu.setMsgVentanaCtrl("INFO:Estacion de Medición desplegada y opeartiva... ");
-		
-		panel_izq = new PanelSolar();
-		panel_drch = new PanelSolar();
-		panel_izq.desplegar();
-		panel_drch.desplegar();
-		iu.setMsgVentanaCtrl("INFO:Páneles Solares desplegados... ");
 		
 	}
 
