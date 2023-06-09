@@ -7,6 +7,10 @@ import modelo.Calculadora;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.text.DecimalFormat;
 
@@ -31,7 +35,14 @@ public class UICalculadora extends JFrame implements ActionListener {
 	
 	private float valor1;
 	private float valor2;
+	private boolean valor1init = false;
+	private boolean valor2init = false;
 	private String operacion;
+	private boolean operando = false;
+	private boolean operacionPendiente = false;
+	private String operacionAnterior;
+//	private String operacionAnterior;
+	private boolean unClick = true;
 	
 	// Constructor. Convoca inicializarControles() la creación de un objeto de esta clase
 	public UICalculadora() {
@@ -140,6 +151,7 @@ public class UICalculadora extends JFrame implements ActionListener {
 		
 		// Pánel 01- Sensor de Bateria
 		txtInput = new JTextArea();
+		txtInput.setName("txtInput");
 		txtInput.setAlignmentY(Component.TOP_ALIGNMENT);
 		txtInput.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtInput.setMargin(new Insets(11, 10, 11, 10));
@@ -192,62 +204,248 @@ public class UICalculadora extends JFrame implements ActionListener {
 		btnIgual.addActionListener(this);
 		btnClear.addActionListener(this);
 		
+		txtInput.addKeyListener(new KeyListener() {
+				
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		    	
+		    	if (operando == true) {
+		    		
+		    		txtInput.setText("");
+		    		
+		    		operando = false;
+		    	}
+		    	
+		    }
+	
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		    	unClick = false;
+		    }
+	
+		    @Override
+		    public void keyReleased(KeyEvent e) {
+		    }
+				
+			});
+		
+		txtInput.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// Empty implementation
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// Empty implementation
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// Empty implementation
+			}
+			
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            // Triggered when the mouse is clicked
+	            System.out.println("Clicked");
+	        }
+	
+	        @Override
+	        public void mousePressed(MouseEvent e) {
+	            // Empty implementation
+	        }
+	        
+	    });
+		
 	}
 
-public void actionPerformed(ActionEvent e) {
-		
-		// Crear e inicializar la variable que guarda el nombre de variable del objeto presionado
-		JButton pressedButton = (JButton) e.getSource();
-		String pressedButtonName = pressedButton.getName();
-		
+	public void operar(String operador) {
+	
 		String input = "";
 		
-		// Acciones dependiendo del origen disparador del evento (de cualquiera de los botones)
-		switch (pressedButtonName) {
-
+		switch (operador) {
+	
+		
+		default:
+		
+		break;
 		
 		case "btnSuma":
 			
-			input = txtInput.getText();
-			valor1 = Float.parseFloat(input);
-			
-			operacion = "suma";
-			txtInput.setText("");
-//			calculadora.suma(valor1,valor2);
+			if (unClick == false) {
+				
+				
+				if (valor1init == false) {
+					
+					input = txtInput.getText();
+					valor1 = Float.parseFloat(input);
+					valor1init = true;
+					operacionPendiente = true;
+					operacionAnterior = operador;
+					
+				}else {
+					
+					input = txtInput.getText();
+					valor2 = Float.parseFloat(input);
+					valor1init = false;
+					valor2init = true;
+					
+					if (operacionPendiente == false) {
+						
+						calculadora.suma(valor1,valor2);
+						operacionPendiente = true;
+						
+					}else {
+						
+						operacionPendiente = false;
+						valor1init = true;
+						operar(operacionAnterior);
+						operacionAnterior = operador;
+
+						operacion = "suma";
+						
+					}
+				}
+				
+				unClick = true;
+			};
 			
 			break;
 		
 		case "btnResta":
 			
-			input = txtInput.getText();
-			valor1 = Float.parseFloat(input);
-			
-			operacion = "resta";
-			txtInput.setText("");
+			if (unClick == false) {
+				
+				
+				if (valor1init == false) {
+
+					input = txtInput.getText();
+					valor1 = Float.parseFloat(input);
+					valor1init = true;
+					operacionPendiente = true;
+					operacionAnterior = operador;
+					
+				}else {
+					
+					input = txtInput.getText();
+					valor2 = Float.parseFloat(input);
+					valor1init = false;
+					valor2init = true;
+					
+					if (operacionPendiente == false) {
+						
+						calculadora.resta(valor1,valor2);
+						operacionPendiente = true;
+						
+					}else {
+
+						operacionPendiente = false;
+						valor1init = true;
+						operar(operacionAnterior);
+						operacionAnterior = operador;
+
+						operacion = "resta";
+						
+					}
+				}
+				
+				unClick = true;
+				
+			};
 			
 			break;
 			
 		case "btnMultiplicacion":
 		
-			input = txtInput.getText();
-			valor1 = Float.parseFloat(input);
-			
-			operacion = "multiplicacion";
-			txtInput.setText("");
+			if (unClick == false) {
+				
+				if (valor1init == false) {
+
+					input = txtInput.getText();
+					valor1 = Float.parseFloat(input);
+					valor1init = true;
+					operacionPendiente = true;
+					operacionAnterior = operador;
+					
+				}else {
+					
+					input = txtInput.getText();
+					valor2 = Float.parseFloat(input);
+					valor1init = false;
+					valor2init = true;
+					
+					if (operacionPendiente == false) {
+						
+						calculadora.multiplicacion(valor1,valor2);
+						operacionPendiente = true;
+						
+					}else {
+
+						operacionPendiente = false;
+						valor1init = true;
+						operar(operacionAnterior);
+						operacionAnterior = operador;
+						
+						operacion = "multiplicacion";
+						
+					}
+				}
+				
+				unClick = true;
+				
+			};
 		
 			break;
 			
 		case "btnDivision":
-		
-			input = txtInput.getText();
-			valor1 = Float.parseFloat(input);
 			
-			operacion = "division";
-			txtInput.setText("");
-		
+			if (unClick == false) {
+				
+				
+				if (valor1init == false) {
+
+					input = txtInput.getText();
+					valor1 = Float.parseFloat(input);
+					valor1init = true;
+					operacionPendiente = true;
+					operacionAnterior = operador;
+					
+				}else {
+					
+					input = txtInput.getText();
+					valor2 = Float.parseFloat(input);
+					valor1init = false;
+					valor2init = true;
+					System.out.println("MULT-"+operacionPendiente);
+					if (operacionPendiente == false) {
+						
+						calculadora.division(valor1,valor2);
+						operacionPendiente = true;
+						
+					}else {
+
+						operacionPendiente = false;
+						valor1init = true;
+						operar(operacionAnterior);
+						operacionAnterior = operador;
+
+						operacion = "division";
+						
+					}
+				}
+				
+				unClick = true;
+				
+			};			
+					
 			break;	
 			
 		case "btnRaiz":
+			
+			valor2 = 0;
+			valor2init = false;
 			
 			input = txtInput.getText();
 			valor1 = Float.parseFloat(input);
@@ -259,6 +457,9 @@ public void actionPerformed(ActionEvent e) {
 			
 		case "btnExponencial":
 			
+			valor2 = 0;
+			valor2init = false;
+						
 			input = txtInput.getText();
 			valor1 = Float.parseFloat(input);
 			
@@ -267,14 +468,19 @@ public void actionPerformed(ActionEvent e) {
 			
 			break;	
 			
-			
 		case "btnClear":
 			
 			txtInput.setText("");
 			valor1 = 0;
 			valor2 = 0;
+	
+			valor1init = false;
+			valor2init = false;
 			
 			operacion = "";
+			operando = false;
+			operacionPendiente = false;
+			operacionAnterior = "";
 			
 			break;	
 			
@@ -284,58 +490,69 @@ public void actionPerformed(ActionEvent e) {
 			input = txtInput.getText();
 			valor2 = Float.parseFloat(input);
 			
-			switch (operacion) {
+			if (operacion != null) {
+				
+				switch (operacion) {
+				
+				default:
+					
+					break;
+					
+				case "suma":
+					
+					calculadora.suma(valor1,valor2);
+					
+					break;
+				
+				case "resta":
+					
+					calculadora.resta(valor1,valor2);				
+					
+					break;
+					
+				case "multiplicacion":
+				
+					calculadora.multiplicacion(valor1,valor2);				
+				
+					break;
+					
+				case "division":
+				
+					calculadora.division(valor1,valor2);				
+				
+					break;	
+					
+				}
 			
-			case "suma":
-				
-				calculadora.suma(valor1,valor2);
-				
-				break;
-			
-			case "resta":
-				
-				calculadora.resta(valor1,valor2);				
-				
-				break;
-				
-			case "multiplicacion":
-			
-				calculadora.multiplicacion(valor1,valor2);				
-			
-				break;
-				
-			case "division":
-			
-				calculadora.division(valor1,valor2);				
-			
-				break;	
-				
-			case "raiz":
-				
-//				calculadora.raiz(valor2);				
-				
-				break;	
-				
-			case "exponencial":
-				
-//				calculadora.exponencial(valor2);				
-				
-				break;	
-				
 			}
 			
-			valor1 = 0;
-			valor2 = 0;
+			unClick = true;
 			
 			break;	
 			
 		}
-
+	
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+			
+		operando = true;
+	
+		// Crear e inicializar la variable que guarda el nombre de variable del objeto presionado
+		JButton pressedButton = (JButton) e.getSource();
+		String pressedButtonName = pressedButton.getName();
+		
+		if (!txtInput.getText().trim().isEmpty()) {
+			
+			operar(pressedButtonName);
+		
+		}
+		
 	}
 	
 	// Muestra el porcentaje de carga de la batería a través de los páneles solares
 	// y cambia de color de acuerdo a si se ha rebasado una carga de 50%.
-	public void setResultado(Float res) {
+	public void setResultado(Float res, String boton) {
 		
 		DecimalFormat decFormat = new DecimalFormat("#.000");
 		
@@ -343,6 +560,14 @@ public void actionPerformed(ActionEvent e) {
 		
 		txtInput.setText(resEnPantalla);
 		
+		String input = txtInput.getText();
+		
+		valor1 = Float.parseFloat(input);
+		valor1init = true;
+		valor2 = 0;
+		valor2init = false;
+		
+		operacionAnterior = boton;
 		
 	}
 
@@ -359,16 +584,6 @@ public void actionPerformed(ActionEvent e) {
 	}
 	
 
-//	public void setTemperatura(double temp) {
-//		
-//		DecimalFormat decFormat = new DecimalFormat("#.00");
-//		
-//		String temperatura = decFormat.format(temp);
-//		
-//		senTemperatura.setText(temperatura + "°");
-//		senPaneles.setBackground(Color.GREEN);
-//		
-//	}
 	
 }
 

@@ -1,5 +1,7 @@
 package modelo;
 
+import javax.swing.JButton;
+
 import interfaz.UICalculadora;
 
 public class Calculadora {
@@ -21,7 +23,7 @@ public class Calculadora {
 		
 		resultado = num1 + num2;
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnSuma");
 		
 	}
 	
@@ -30,16 +32,16 @@ public class Calculadora {
 		
 		resultado = num1 - num2;
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnResta");
 		
 	}
 	
 	public void multiplicacion(float num1, float num2) {
 		
 		
-		resultado = num1 / num2;
+		resultado = num1 * num2;
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnMultiplicacion");
 		
 	}
 	
@@ -48,7 +50,7 @@ public class Calculadora {
 		
 		resultado = num1 / num2;
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnDivision");
 		
 	}
 	
@@ -57,7 +59,7 @@ public class Calculadora {
 		
 		resultado = (float) Math.sqrt(num1);
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnRaiz");
 		
 	}
 	
@@ -66,10 +68,8 @@ public class Calculadora {
 		
 		resultado = (float) Math.exp(num1);
 		
-		iu.setResultado(resultado);
+		iu.setResultado(resultado, "btnExponencial");
 		
 	}
-	
-	
 
 }
