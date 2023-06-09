@@ -56,17 +56,62 @@ public class Calculadora {
 	
 	public void raiz(float num1) {
 		
-		
-		resultado = (float) Math.sqrt(num1);
-		
-		iu.setResultado(resultado, "btnRaiz");
+		if (num1 < 0 ) {
+			
+			iu.setResultado(resultado, "NaN");
+			
+		}else {
+			
+			// Método babilónico
+			double guess = num1 / 2;
+			double error = 1e-3; // Desired precision
+	        double squaredError = error * error;
+	        double nextGuess = 0;
+
+	        while (true) {
+	        	
+	            nextGuess = 0.5 * (guess + num1 / guess);
+	            if ((nextGuess - guess) * (nextGuess - guess) < squaredError) {
+	                break;
+	            }
+	            guess = nextGuess;
+	            
+	        };
+	        
+	        resultado = (float) nextGuess;
+			
+			iu.setResultado(resultado, "btnRaiz");	
+			
+		}
+
 		
 	}
 	
 	public void exponencial(float num1) {
 		
+		float e = (float) 2.718;
 		
-		resultado = (float) Math.exp(num1);
+        if (num1 == 0) {
+        	
+        	resultado = (float) 1.0; // Anything raised to the power of 0 is 1
+        	
+        } else if (num1 < 0) {
+            // For negative exponents, invert the base and change the exponent sign
+            e = 1 / e;
+            num1 = -num1;
+        }
+
+        double acumulado = 1.0;
+        
+        for (int i = 0; i < num1; i++) {
+        	
+        	acumulado *= (double) e;
+            
+        }
+
+		
+		resultado = (float) acumulado;
+//		resultado = (float) Math.exp(num1);
 		
 		iu.setResultado(resultado, "btnExponencial");
 		

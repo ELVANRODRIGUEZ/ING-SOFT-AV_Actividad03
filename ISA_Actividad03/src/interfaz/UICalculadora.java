@@ -229,36 +229,6 @@ public class UICalculadora extends JFrame implements ActionListener {
 				
 			});
 		
-		txtInput.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// Empty implementation
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// Empty implementation
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// Empty implementation
-			}
-			
-	        @Override
-	        public void mouseClicked(MouseEvent e) {
-	            // Triggered when the mouse is clicked
-	            System.out.println("Clicked");
-	        }
-	
-	        @Override
-	        public void mousePressed(MouseEvent e) {
-	            // Empty implementation
-	        }
-	        
-	    });
-		
 	}
 
 	public void operar(String operador) {
@@ -554,20 +524,39 @@ public class UICalculadora extends JFrame implements ActionListener {
 	// y cambia de color de acuerdo a si se ha rebasado una carga de 50%.
 	public void setResultado(Float res, String boton) {
 		
-		DecimalFormat decFormat = new DecimalFormat("#.000");
 		
-		String resEnPantalla = decFormat.format(res);
-		
-		txtInput.setText(resEnPantalla);
-		
-		String input = txtInput.getText();
-		
-		valor1 = Float.parseFloat(input);
-		valor1init = true;
-		valor2 = 0;
-		valor2init = false;
-		
-		operacionAnterior = boton;
+		if (boton == "NaN") {
+			
+			txtInput.setText("NaN");
+			
+			valor1 = 0;
+			valor2 = 0;
+	
+			valor1init = false;
+			valor2init = false;
+			
+			operacion = "";
+			operacionPendiente = false;
+			operacionAnterior = "";
+			
+		}else {
+			
+			DecimalFormat decFormat = new DecimalFormat("#.000");
+			
+			String resEnPantalla = decFormat.format(res);
+			
+			txtInput.setText(resEnPantalla);
+			
+			String input = txtInput.getText();
+			
+			valor1 = Float.parseFloat(input);
+			valor1init = true;
+			valor2 = 0;
+			valor2init = false;
+			
+			operacionAnterior = boton;
+
+		}
 		
 	}
 
