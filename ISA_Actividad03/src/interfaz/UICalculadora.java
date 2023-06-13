@@ -20,29 +20,29 @@ public class UICalculadora extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	// Modelo que manipula la IU
-	private Calculadora calculadora;
+	public Calculadora calculadora;
 	
-	private JButton btnSuma;
-	private JButton btnResta;
-	private JButton btnMultiplicacion;	
-	private JButton btnDivision;
-	private JButton btnRaiz;
-	private JButton btnExponencial;
-	private JButton btnClear;
-	private JButton btnIgual;
-	private JTextArea txtInput;
-	private JPanel pnlPanel01;
+	public JButton btnSuma;
+	public JButton btnResta;
+	public JButton btnMultiplicacion;	
+	public JButton btnDivision;
+	public JButton btnRaiz;
+	public JButton btnExponencial;
+	public JButton btnClear;
+	public JButton btnIgual;
+	public JTextArea txtInput;
+	public JPanel pnlPanel01;
 	
-	private float valor1;
-	private float valor2;
-	private boolean valor1init = false;
-	private boolean valor2init = false;
-	private String operacion;
-	private boolean operando = false;
-	private boolean operacionPendiente = false;
-	private String operacionAnterior;
-//	private String operacionAnterior;
-	private boolean unClick = true;
+	public float valor1;
+	public float valor2;
+	public boolean valor1init = false;
+	public boolean valor2init = false;
+	public String operacion;
+	public boolean operando = false;
+	public boolean operacionPendiente = false;
+	public String operacionAnterior;
+	public String operacionProv;
+	public boolean unClick = true;
 	
 	// Constructor. Convoca inicializarControles() la creación de un objeto de esta clase
 	public UICalculadora() {
@@ -194,7 +194,7 @@ public class UICalculadora extends JFrame implements ActionListener {
   
 		// EVENTOS A REGISTRAR EN LA INTERFACE ****************************************************************************
 		
-		// Registrar el manejador de eventos para los 3 diferentes botones
+		// Registrar el manejador de eventos para los diferentes botones
 		btnSuma.addActionListener(this);
 		btnResta.addActionListener(this);
 		btnMultiplicacion.addActionListener(this);
@@ -244,7 +244,10 @@ public class UICalculadora extends JFrame implements ActionListener {
 		
 		case "btnSuma":
 			
-			if (unClick == false) {
+			operacionProv = operacion;
+			operacion = "suma";
+			
+			if (unClick == false) {				
 				
 				
 				if (valor1init == false) {
@@ -264,8 +267,10 @@ public class UICalculadora extends JFrame implements ActionListener {
 					
 					if (operacionPendiente == false) {
 						
+						
 						calculadora.suma(valor1,valor2);
 						operacionPendiente = true;
+						operacion = operacionProv;
 						
 					}else {
 						
@@ -273,9 +278,6 @@ public class UICalculadora extends JFrame implements ActionListener {
 						valor1init = true;
 						operar(operacionAnterior);
 						operacionAnterior = operador;
-
-						operacion = "suma";
-						
 					}
 				}
 				
@@ -286,7 +288,10 @@ public class UICalculadora extends JFrame implements ActionListener {
 		
 		case "btnResta":
 			
-			if (unClick == false) {
+			operacionProv = operacion;
+			operacion = "resta";
+			
+			if (unClick == false) {				
 				
 				
 				if (valor1init == false) {
@@ -308,6 +313,7 @@ public class UICalculadora extends JFrame implements ActionListener {
 						
 						calculadora.resta(valor1,valor2);
 						operacionPendiente = true;
+						operacion = operacionProv;
 						
 					}else {
 
@@ -315,8 +321,6 @@ public class UICalculadora extends JFrame implements ActionListener {
 						valor1init = true;
 						operar(operacionAnterior);
 						operacionAnterior = operador;
-
-						operacion = "resta";
 						
 					}
 				}
@@ -328,7 +332,10 @@ public class UICalculadora extends JFrame implements ActionListener {
 			break;
 			
 		case "btnMultiplicacion":
-		
+			
+			operacionProv = operacion;
+			operacion = "multiplicacion";
+			
 			if (unClick == false) {
 				
 				if (valor1init == false) {
@@ -350,6 +357,7 @@ public class UICalculadora extends JFrame implements ActionListener {
 						
 						calculadora.multiplicacion(valor1,valor2);
 						operacionPendiente = true;
+						operacion = operacionProv;
 						
 					}else {
 
@@ -357,8 +365,6 @@ public class UICalculadora extends JFrame implements ActionListener {
 						valor1init = true;
 						operar(operacionAnterior);
 						operacionAnterior = operador;
-						
-						operacion = "multiplicacion";
 						
 					}
 				}
@@ -371,8 +377,10 @@ public class UICalculadora extends JFrame implements ActionListener {
 			
 		case "btnDivision":
 			
+			operacionProv = operacion;
+			operacion = "division";
+			
 			if (unClick == false) {
-				
 				
 				if (valor1init == false) {
 
@@ -388,11 +396,12 @@ public class UICalculadora extends JFrame implements ActionListener {
 					valor2 = Float.parseFloat(input);
 					valor1init = false;
 					valor2init = true;
-					System.out.println("MULT-"+operacionPendiente);
+					
 					if (operacionPendiente == false) {
 						
 						calculadora.division(valor1,valor2);
 						operacionPendiente = true;
+						operacion = operacionProv;
 						
 					}else {
 
@@ -400,17 +409,15 @@ public class UICalculadora extends JFrame implements ActionListener {
 						valor1init = true;
 						operar(operacionAnterior);
 						operacionAnterior = operador;
-
-						operacion = "division";
 						
 					}
 				}
 				
 				unClick = true;
 				
-			};			
-					
-			break;	
+			};
+		
+			break;
 			
 		case "btnRaiz":
 			
@@ -459,7 +466,7 @@ public class UICalculadora extends JFrame implements ActionListener {
 			
 			input = txtInput.getText();
 			valor2 = Float.parseFloat(input);
-			
+//			System.out.println(operacion);
 			if (operacion != null) {
 				
 				switch (operacion) {
@@ -470,6 +477,7 @@ public class UICalculadora extends JFrame implements ActionListener {
 					
 				case "suma":
 					
+
 					calculadora.suma(valor1,valor2);
 					
 					break;
